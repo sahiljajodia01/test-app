@@ -3,13 +3,9 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 import os
-from dotenv import load_dotenv
-
-# Load API keys from .env file (optional but recommended)
-load_dotenv()
 
 # Initialize LLM (replace with your preferred model)
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash-8b", google_api_key=os.environ.get("GOOGLE_API_KEY"))  # Use os.environ if not using .env
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash-8b", google_api_key=st.secrets["GOOGLE_API_KEY"])  # Use os.environ if not using .env
 # Create a prompt template
 template = """
 You are a helpful AI assistant that answers questions based on the following context:
