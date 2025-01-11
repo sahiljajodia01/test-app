@@ -22,7 +22,6 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.rye]
-package-mode = false
 managed = true
 dev-dependencies = []
 
