@@ -8,34 +8,30 @@ import os
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash-8b", google_api_key=st.secrets["GOOGLE_API_KEY"])  # Use os.environ if not using .env
 # Create a prompt template
 template = """
-You are a helpful AI assistant that answers questions based on the following context:
-
-{context}
-
-Question: {question}
-Answer:"""
-prompt = PromptTemplate(template=template, input_variables=["context", "question"])
+Please help me plan a travel itinerary for {country_name} for {number_of_days} days. Create a day-by-day plan that includes recommended activities, must-see attractions, dining options, and tips for transportation. Optimize the itinerary to make the most of the time available.
+"""
+prompt = PromptTemplate(template=template, input_variables=["country_name", "number_of_days"])
 
 # Create a chain
 chain = LLMChain(llm=llm, prompt=prompt)
 
 # Streamlit UI
-st.title("Question Answering with LangChain")
+st.title("Travel planer app")
 
-# Context input
-context = st.text_area("Enter the context:", height=200)
+# Country input
+country_name = st.text_input("Enter a country name:")
 
-# Question input
-question = st.text_input("Enter your question:")
+# Days input
+number_of_days = st.text_input("Enter the number od days you want to travel")
 
 # Run the chain when the user clicks the button
-if st.button("Get Answer"):
-    if context and question:
+if st.button("Get itineraries"):
+    if country_name and number_of_days:
         with st.spinner("Thinking..."):
             # Run the chain
-            response = chain.run({"context": context, "question": question})
+            response = chain.run({"country_name": country_name, "number_of_days": number_of_days})
 
             # Display the response
             st.write(response)
     else:
-        st.error("Please provide both context and a question.")
+        st.error("Please provide both country_name and a number_of_days.")
